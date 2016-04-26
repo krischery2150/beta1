@@ -1,4 +1,5 @@
 class Librarian < ActiveRecord::Base
+    attr_accessor :remember_token
     before_save { self.email = email.downcase }
     validates :first_name, presence: true, length: {maximum: 9}
     validates :last_name, presence: true,  length: {maximum: 10}
@@ -11,11 +12,39 @@ class Librarian < ActiveRecord::Base
     has_attached_file :profile_pic, :styles => {:thumb => "100x100>"},
                       default_url: "/images/:style/missing.png"
     validates_attachment_content_type :profile_pic, content_type: /\Aimage\/.*\Z/
-
     GENDER_TYPES = ["Unspecified","Male", "Female"]
     BIRTH_MONTH_CONTENT = ["Jan","Feb", "Mar", "Apr", "May", "June", "Jul", "Aug", "Oct", "Nov"]
 
     has_secure_password
+    validates :password, presence: true, length: { minimum: 6 }
 
+  # Returns the hash digest of the given string.
+  def Librarian.digest(string)
+    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+                                                  BCrypt::Engine.cost
+    BCrypt::Password.create(string, cost: cost)
+  end
+
+  #returns a random token
+  def Librarian.new_token
+    SecureRandom.urlsafe_base64
+  end
+
+  # Remembers a user in the database for use in persistent sessions.
+  def remember
+    self.remember_token = Librarian.new_token
+    update_attribute(:remember_digest, Librarian.digest(remember_token))
+  end
+
+  # Returns true if the given token matches the digest.
+  def authenticated?(remember_token)
+    return false if remember_digest.nil?
+    BCrypt::Password.new(remember_digest).is_password?(remember_token)
+  end
+
+  # Forgets a user.
+  def forget
+    update_attribute(:remember_digest, nil)
+  end
 
 end

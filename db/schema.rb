@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160425211605) do
+ActiveRecord::Schema.define(version: 20160426214355) do
 
   create_table "librarians", force: :cascade do |t|
     t.string   "first_name"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 20160425211605) do
     t.integer  "birth_day"
     t.integer  "birth_year"
     t.string   "gender"
+    t.string   "remember_digest"
   end
 
   add_index "librarians", ["email"], name: "index_librarians_on_email", unique: true
