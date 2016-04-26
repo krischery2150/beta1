@@ -1,0 +1,8 @@
+<h1>Librarians#show</h1>
+<p>Find me in app/views/librarians/show.html.erb</p>
+
+<%= image_tag @user.profile_pic.url(:thumb) %>,
+<%= @user.first_name %>, <%= @user.last_name %>,
+<%= @user.email %>
+<%= @user.birth_month %>, <%= @user.birth_day %>, <%= @user.birth_year %>
+<span><%= @user.gender %></span>

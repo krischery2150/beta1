@@ -1,0 +1,43 @@
+<h1>Librarians#new</h1>
+<p>Find me in app/views/librarians/new.html.erb</p>
+<% provide(:title, 'Sign up') %>
+<h1>Sign up</h1>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <%= form_for(@user) do |f| %>
+      <%= f.label :first_name %>
+      <%= f.text_field :first_name %>
+
+      <%= f.label :last_name %>
+      <%= f.text_field :last_name %>
+
+      <%= f.label :email %>
+      <%= f.email_field :email %>
+
+      <%= f.label :password %>
+      <%= f.password_field :password %>
+
+      <%= f.label :password_confirmation, "Confirmation" %>
+      <%= f.password_field :password_confirmation %>
+
+      <%= f.label :profile_pic %><br>
+      <%= f.file_field :profile_pic %><br >
+
+      <%= f.label :birth_day %><br>
+      <%= f.text_field :birth_day %><br >
+
+      <%= f.label :birth_month %><br>
+      <%= f.select :birth_month, Librarian::BIRTH_MONTH_CONTENT %><br >
+
+      <%= f.label :birth_year %><br>
+      <%= f.select :birth_year, 1970.. 8.years.from_now.year %><br>
+
+      <%= f.label :Gender %><br>
+      <%= f.select :gender,  Librarian::GENDER_TYPES %>
+
+
+      <%= f.submit "Create my account", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
